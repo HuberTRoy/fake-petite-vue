@@ -37,6 +37,11 @@ export function applyDirective(el:Element, name: string, value:string, ctx:conte
 export function process(node:Node, ctx:context) {
     // nodeType https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
     // 1： An Element node like <p> or <div>.
+    // debugger
+    console.log(node)
+    // if (node.attributes && node.attributes.id && node.attributes.id.value === 'test') {
+    //     debugger
+    // }
     if (node.nodeType === 1) {
         let el = node as Element
         let dataScope:string|null = el.getAttribute('v-data')
@@ -46,14 +51,14 @@ export function process(node:Node, ctx:context) {
     
             el.removeAttribute('v-data')
         }
+        
         // 对于 element 来进行指令的替换 v- : @开头的指令。
         for (let { name, value } of el.attributes) {
-
             if (directiveRe.test(name)) {
                 applyDirective(el, name, value, ctx)
             }
         }
-
+        
         let child = node.firstChild
         while (child) {
             process(child, ctx)

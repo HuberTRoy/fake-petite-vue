@@ -7,22 +7,24 @@
     <title>Vite App</title>
   </head>
   <body>
+      <!-- <div v-show="open" v-red>=这是模板测试和v-show测试 {{ msg }} + 4 6</div>
+      <div v-show="!open" v-red>这是模板测试和初始值为false的v-show测试 {{ msg }}</div>
+      <div v-if="open">这是v-if测试</div> -->
+      <!-- <div v-data="controller">
+          <div v-if="open">这是初始值为false的v-if测试</div>
+          <button @click="open = !open">
+              基础事件测试
+          </button>
+      </div> -->
     <div id="app">
-        <div v-data="controller">
-            <div v-show="open" v-red>=这是模板测试和v-show测试 {{ msg }} + 4 6</div>
-            <div v-if="open">这是v-if测试</div>
-            <button @click="open = !open">
-                基础事件测试
-            </button>
-        </div>
         <div v-data="cc">
-            <div v-show="open">"" + (){{ msg }} {{ open }}()</div>
-            <div v-show="open" v-red>456 {{ msg }} + 4 6</div>
-            <div v-show="open" v-red>4222</div>
-
+            <div id="test" v-if="open">这是初始值为false的v-if测试</div>
+            <div id="test" v-if="open">这是初始值为false的v-if测试</div>
+            <div id="test" v-if="open">这是初始值为false的v-if测试</div>
             <button @click="open = !open">
                 toggle me
             </button>
+            <div v-show="!open">11</div>
         </div>
     </div>
     <script type="module">
