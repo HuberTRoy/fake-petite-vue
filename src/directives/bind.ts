@@ -22,12 +22,24 @@ const normalizeClass = (newClassNames:Array<string>|Record<any, any>|string):str
     return ''
 }
 
+const normalizeStyle = (newStyles:Record<any, any>) => {
+    let newStyleArray:string[] = []
+
+    for (let key of Object.keys(newStyles)) {
+        newStyleArray.push(`${key}: ${newStyles[key]}`)
+    }
+       
+    return newStyleArray.join(';')
+}
+
 export const bind: Directive = ({ el, get, args }) => {
     // 目前仅处理 :class :style，v-bind这个操作一般都是向组件内传值，不过还没实现组件功能。
     observe(() => {
         let result = get()
         if (args.bindName === 'class') {
             el.setAttribute('class', normalizeClass(result))
+        } else if (args.bindName === 'style') {
+            el.setAttribute('style', normalizeStyle(result))
         }
     })
 }
