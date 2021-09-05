@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app">
+        <div v-data="controller">
+            <div v-show="open" v-red>=这是模板测试和v-show测试 {{ msg }} + 4 6</div>
+            <div v-if="open">这是v-if测试</div>
+            <button @click="open = !open">
+                基础事件测试
+            </button>
+        </div>
+        <div v-data="cc">
+            <div v-show="open">"" + (){{ msg }} {{ open }}()</div>
+            <div v-show="open" v-red>456 {{ msg }} + 4 6</div>
+            <div v-show="open" v-red>4222</div>
+
+            <button @click="open = !open">
+                toggle me
+            </button>
+        </div>
+    </div>
+    <script type="module">
+        import { createApp } from './src/app.ts'
+        
+        let app = createApp()
+        app.data("controller", () => {
+            return {
+                open: true,
+                msg: 'hello template'
+            }
+        })
+        app.data("cc", () => {
+            return {
+                open: true,
+                msg: 'hello cc'
+            }
+        })
+        app.mount('#app')
+    </script>
+  </body>
+</html>
