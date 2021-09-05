@@ -1,9 +1,7 @@
 import { observe } from '@/observable'
-import { context } from '../app'
 import { Directive } from '.'
-import { evalValue } from '@/eval'
 
-export const _if: Directive<HTMLElement> = (el, value:string, ctx:context) => {
+export const _if: Directive<HTMLElement> = ({ el, get }) => {
     // const initialDisplay = el.style.display
     let isAttached = true
     let parent = el.parentNode
@@ -16,7 +14,7 @@ export const _if: Directive<HTMLElement> = (el, value:string, ctx:context) => {
         // 2.递归操作的时候递归进行一份clone。
         // 或许1会好一点。
         // 最新版的petite-vue没有这个BUG，这里先这样，看到后面的代码在返回头解决他。
-        let state = evalValue(ctx.scope, value)
+        let state = get()
         if (state) {
             if (!isAttached) {
                 parent?.insertBefore(el, cm)

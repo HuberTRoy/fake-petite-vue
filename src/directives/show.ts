@@ -1,12 +1,10 @@
 import { observe } from '@/observable'
-import { context } from '../app'
 import { Directive } from '.'
-import { evalValue } from '@/eval'
 
-export const show: Directive<HTMLElement> = (el, value:string, ctx:context) => {
+export const show: Directive<HTMLElement> = ({ el, get }) => {
     const initialDisplay = el.style.display
 
     observe(() => {
-        el.style.display = evalValue(ctx.scope, value) ? initialDisplay : 'none'
+        el.style.display = get() ? initialDisplay : 'none'
     })
 }

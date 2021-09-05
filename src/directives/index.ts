@@ -5,19 +5,24 @@ import { data } from "./data"
 import { event } from "./event"
 import { text } from "./text"
 import { _if } from './if'
+import { _for } from './for'
 
-export type Directive<T = Element> = (
+export type Directive<T = Element> = (ctx:DirectiveContext<T>) => void
+
+export interface DirectiveContext<T> {
     el: T,
+    get: (exp?:string) => any, 
     value: string,
     ctx: context,
-    args: args
-) => void
+    args: args 
+}
 
 export interface args {
     [propName: string]: any;
 }
 
 export const buildInDirectives:args = {
+    for: _for,
     if: _if,
     show: show,
     bind: bind,

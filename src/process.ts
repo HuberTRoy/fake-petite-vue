@@ -5,6 +5,7 @@ import { event } from './directives/event'
 import { bind } from './directives/bind'
 import { data } from './directives/data'
 import { text } from './directives/text'
+import { evalValue } from './eval'
 
 let textRe = /\{\{(.+?)\}\}/g
 let directiveRe = /^[v\-|\:|@]/
@@ -16,8 +17,9 @@ export function applyDirective(el:Element, name: string, value:string, ctx:conte
     // 不支持modifier
     // 绑定属性，暂时没有用
     if (name[0] === ':') {
-        console.log("暂时没用")
         dir = bind
+        name = name.slice(1)
+        args.bindName = name
     } else if ( name[0] === '@' ) {
         // 进行事件监听
         dir = event
@@ -30,18 +32,15 @@ export function applyDirective(el:Element, name: string, value:string, ctx:conte
 
     }
     if (dir) {
-        dir(el, value, ctx, args)
+        const get = (e=value) => evalValue(ctx.scope, e)
+
+        dir({ el, value, ctx, args, get })
     }
 }
 
 export function process(node:Node, ctx:context) {
     // nodeType https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
     // 1： An Element node like <p> or <div>.
-    // debugger
-    console.log(node)
-    // if (node.attributes && node.attributes.id && node.attributes.id.value === 'test') {
-    //     debugger
-    // }
     if (node.nodeType === 1) {
         let el = node as Element
         let dataScope:string|null = el.getAttribute('v-data')

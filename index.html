@@ -5,6 +5,11 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
+    <style>
+        .testClass {
+            color: red;
+        }
+    </style>
   </head>
   <body>
       <!-- <div v-show="open" v-red>=这是模板测试和v-show测试 {{ msg }} + 4 6</div>
@@ -17,14 +22,20 @@
           </button>
       </div> -->
     <div id="app">
-        <div v-data="cc">
-            <div id="test" v-if="open">这是初始值为false的v-if测试</div>
-            <div id="test" v-if="open">这是初始值为false的v-if测试</div>
-            <div id="test" v-if="open">这是初始值为false的v-if测试</div>
+        <div v-data="controller">
+            <div id="test" v-if="open" :class="['testClass', classes]">这是v-if测试</div>
+            <div id="test" v-if="open" :class="{ testClass: showClass }">这是v-if测试</div>
+            <div>
+                <!-- <span v-for="i in list">
+                    {{ i }}
+                </span> -->
+            </div>
             <button @click="open = !open">
                 toggle me
             </button>
-            <div v-show="!open">11</div>
+            <button @click="showClass = !showClass">
+                toggle me
+            </button>
         </div>
     </div>
     <script type="module">
@@ -34,7 +45,10 @@
         app.data("controller", () => {
             return {
                 open: true,
-                msg: 'hello template'
+                showClass: false,
+                msg: 'hello template',
+                classes: 'xyz',
+                list: [{ text: 1 }, { text: 2 }, { text: 3 }] // 
             }
         })
         app.data("cc", () => {
