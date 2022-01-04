@@ -23,18 +23,20 @@
       </div> -->
     <div id="app">
         <div v-data="controller">
-            <div id="test" v-if="open" :class="['testClass', classes]">这是v-if测试</div>
+            <!-- <div id="test" v-if="open" :class="['testClass', classes]">这是v-if测试</div>
             <div id="test" v-if="open" :class="{ testClass: showClass }">这是v-if和:class的测试</div>
-            <div :style="{ color }">Pink关于:style的测试</div>
-            <div>
-                <!-- <span v-for="i in list">
-                    {{ i }}
-                </span> -->
+            <div :style="{ color }">
+                <div v-if="open">
+                    xyz
+                </div>
+            </div> -->
+            <div style="display:flex;flex-direction: column;">
+                <span v-for="i in list">{{ i.text }}</span>
             </div>
-            <button @click="open = !open">
+            <button @click="list.push({ text: 1 })">
                 toggle me
             </button>
-            <button @click="showClass = !showClass">
+            <button @click="list.pop()">
                 toggle me
             </button>
         </div>
@@ -50,7 +52,8 @@
                 msg: 'hello template',
                 classes: 'xyz',
                 color: 'pink',
-                list: [{ text: 1 }, { text: 2 }, { text: 3 }] // 
+                list: [{ text: 1 }, { text: 2}, { text: 3}], // 
+                lists: ['1', '2', '3'] // 
             }
         })
         app.data("cc", () => {
