@@ -2,6 +2,29 @@ const targetMap = new WeakMap();
 let activeEffectStack: any = [];
 let activeEffect: any;
 
+const nextTick = Promise.resolve();
+const queue = new Set<Function>();
+let queued: Boolean = false;
+
+function scheduler(func: Function) {
+  queue.add(func);
+
+  if (!queued) {
+    queued = true;
+    nextTick.then(flush);
+  }
+}
+
+function flush() {
+  queue.forEach(func => {
+    func();
+  });
+
+  // queue.length = 0;
+  queue.clear();
+  queued = false;
+}
+
 function track(target: object, key: string | number | symbol) {
   // track的时候
   let depMap = targetMap.get(target);
@@ -34,7 +57,7 @@ function trigger(target: object, key: string | number | symbol) {
     return;
   }
 
-  dep.forEach((item: Function) => item && item());
+  dep.forEach((item: Function) => item && scheduler(item));
 }
 
 interface Observe extends Object {
@@ -64,9 +87,7 @@ function createObserve(obj: Observe): Observe {
       // if (value instanceof Object) {
       //     value = createObserve(value)
       // }
-
       let result = Reflect.set(target, key, value, receiver);
-
       trigger(target, key);
       return result;
     },

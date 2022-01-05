@@ -1,8 +1,7 @@
-import { Directive } from "."
+import { Directive } from ".";
 
-export const event: Directive = ({ el, get, args }) => {
-    el.addEventListener(args.event, (e) => {
-        get()
-    })
-
-}
+export const event: Directive = ({ el, get, args, ctx, value }) => {
+  el.addEventListener(args.event, e => {
+    get();
+  });
+};
