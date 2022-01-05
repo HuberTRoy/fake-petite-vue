@@ -23,6 +23,7 @@
       </div> -->
     <div id="app">
         <div v-data="controller">
+            <div id="test" v-if="!open" :class="['testClass', classes]">这是v-if测试</div>
             <!-- <div id="test" v-if="open" :class="['testClass', classes]">这是v-if测试</div>
             <div id="test" v-if="open" :class="{ testClass: showClass }">这是v-if和:class的测试</div>
             <div :style="{ color }">
@@ -30,21 +31,45 @@
                     xyz
                 </div>
             </div> -->
-            <div style="display:flex;flex-direction: column;">
+            <!-- <div style="display:flex;flex-direction: column;">
                 <div v-for="i in list" :key="i.text">
                     {{ i.text }}
-                    <!-- <span v-for="j in lists">
+                    <div v-for="j in lists" :key="j">
                         {{ j }}
-                    </span> -->
+                        <span @click="lists.push(Math.random())">
+                            4567
+                        </span>
+                        <div v-for="x in listss" :key="x">
+                            {{ j }}
+                            <span @click="lists.push(Math.random())">
+                                4567
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <button @click="list.push({ text: Math.random() })">
+            <div style="display:flex;flex-direction: column;">
+
+                <div v-for="i in lists" :key="i">
+                    {{ i }}
+                    <span @click="lists.push(Math.random())">
+                        4567
+                    </span>
+                </div>
+            </div> -->
+            <div v-for="i in lists" :key="i">
+                {{ i }}
+                <span @click="lists.push(Math.random())">
+                    4567
+                </span>
+            </div>
+            <button @click="lists.push({ text: Math.random() })">
                 toggle me
             </button>
-            <button @click="list.pop()">
+            <button @click="lists.pop()">
                 toggle me
             </button>
-            <button @click="list.reverse()">
+            <button @click="open = !open">
                 toggle me
             </button>
         </div>
@@ -60,14 +85,9 @@
                 msg: 'hello template',
                 classes: 'xyz',
                 color: 'pink',
-                list: [{ text: 1 }, { text: 2},{ text:7}, { text: 5}, { text: 3}], // 
-                lists: ['1', '2', '3'] // 
-            }
-        })
-        app.data("cc", () => {
-            return {
-                open: true,
-                msg: 'hello cc'
+                list: [{ text: 1 }, { text: 2 }, { text: 7 }, { text: 5}, { text: 3}], // 
+                lists: ['1'],
+                listss: ['tyutyu'],
             }
         })
         app.mount('#app')

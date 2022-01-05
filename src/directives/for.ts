@@ -39,7 +39,6 @@ export const _for: Directive = ({ el, value, ctx, get }) => {
   // let prevKey: string = "";
 
   let containerList = ctx.scope[container];
-
   observe(() => {
     usedKeys = [];
     childScope = [];
@@ -52,12 +51,18 @@ export const _for: Directive = ({ el, value, ctx, get }) => {
     //    2.2 key相同但顺序不同，eg 翻转，此时应该移动。
     //    2.3 key不同在当前节点新插入新的节点。
     for (let [index, item] of containerList.entries()) {
-      let copyCtx = cloneDeep(ctx);
-      copyCtx.scope[itemName] = item;
-      childScope.push(copyCtx);
+      let copyCtx: context = {
+        scope: ctx.scope,
+        dirList: ctx.dirList,
+        childrenScope: {},
+      };
+      if (copyCtx.childrenScope) {
+        copyCtx.childrenScope[itemName] = item;
+      }
+      // childScope.push(copyCtx);
       let key = el.getAttribute(":key") || "";
       if (key) {
-        key = evalValue(copyCtx.scope, key);
+        key = evalValue(copyCtx.scope, key, copyCtx.childrenScope);
       }
       // let last = prevListNode.get(prevKey) || anchor;
       let clone = prevListNode.get(key);
@@ -102,6 +107,6 @@ export const _for: Directive = ({ el, value, ctx, get }) => {
     }
     prevListNode = cloneDeep(currentListNode);
 
-    delete ctx.scope[itemName];
+    // delete copyCtx.scope[itemName];
   });
 };

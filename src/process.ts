@@ -1,5 +1,5 @@
 import { context } from "./app";
-
+import scheduler from "./schduler";
 import { Directive, buildInDirectives, args } from "./directives";
 import { event } from "./directives/event";
 import { bind } from "./directives/bind";
@@ -35,7 +35,7 @@ export function applyDirective(
     dir = buildInDirectives[dirName] || ctx.dirList[dirName];
   }
   if (dir) {
-    const get = (e = value) => evalValue(ctx.scope, e);
+    const get = (e = value) => evalValue(ctx.scope, e, ctx.childrenScope || {});
 
     dir({ el, value, ctx, args, get });
   }
@@ -60,7 +60,11 @@ export function process(node: Node, ctx: context, dev?: Boolean) {
     // 对于 element 来进行指令的替换 v- : @开头的指令。
     for (let { name, value } of el.attributes) {
       if (directiveRe.test(name)) {
-        applyDirective(el, name, value, ctx);
+        if (name === "v-if" || name === "v-for") {
+          scheduler(() => applyDirective(el, name, value, ctx));
+        } else {
+          applyDirective(el, name, value, ctx);
+        }
       }
       if (name === "v-for") {
         return;

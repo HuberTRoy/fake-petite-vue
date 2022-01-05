@@ -4,6 +4,7 @@ import { process } from "./process";
 export interface context {
   scope: Record<string, any>;
   dirList: Record<string, any>;
+  childrenScope?: Record<string, any>;
 }
 
 export function createApp() {
