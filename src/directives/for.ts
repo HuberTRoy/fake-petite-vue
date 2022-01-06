@@ -42,7 +42,7 @@ export const _for: Directive = ({ el, value, ctx, get }) => {
   observe(() => {
     usedKeys = [];
     childScope = [];
-    currentListNode.clear();
+    currentListNode = new Map<string, Node>();
     let keys = [...prevListNode.keys()];
     // 这里先分成两步
     // 1. 迭代一次，生成一份新的当前node的数组。
@@ -50,6 +50,10 @@ export const _for: Directive = ({ el, value, ctx, get }) => {
     //    2.1 进行比对，比对是否是同一个节点，当前仅以Key为对比条件。key相同且顺序相同则不变。
     //    2.2 key相同但顺序不同，eg 翻转，此时应该移动。
     //    2.3 key不同在当前节点新插入新的节点。
+    if (containerList.length === 0) {
+      deleteKeys = [...prevListNode.keys()];
+    }
+
     for (let item of containerList) {
       let copyCtx: context = {
         scope: ctx.scope,
@@ -101,11 +105,11 @@ export const _for: Directive = ({ el, value, ctx, get }) => {
         let node: Node | undefined = prevListNode.get(key);
         if (node) {
           removeNode(node);
-          prevListNode.delete(key);
         }
+        prevListNode.delete(key);
       }
     }
-    prevListNode = cloneDeep(currentListNode);
+    prevListNode = currentListNode;
 
     // delete copyCtx.scope[itemName];
   });
