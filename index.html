@@ -31,7 +31,7 @@
                     xyz
                 </div>
             </div> -->
-            <!-- <div style="display:flex;flex-direction: column;">
+            <div style="display:flex;flex-direction: column;">
                 <div v-for="i in list" :key="i.text">
                     {{ i.text }}
                     <div v-for="j in lists" :key="j">
@@ -39,10 +39,10 @@
                         <span @click="lists.push(Math.random())">
                             4567
                         </span>
-                        <div v-for="x in listss" :key="x">
-                            {{ j }}
+                        <div v-for="x in listss" :key="x" style="color: pink">
+                            {{ i.text }}
                             <span @click="lists.push(Math.random())">
-                                4567
+                                4888
                             </span>
                         </div>
                     </div>
@@ -56,14 +56,14 @@
                         4567
                     </span>
                 </div>
-            </div> -->
+            </div>
             <div v-for="i in lists" :key="i">
                 {{ i }}
                 <span @click="lists.push(Math.random())">
                     4567
                 </span>
             </div>
-            <button @click="lists.push({ text: Math.random() })">
+            <button @click="list.push({ text: Math.random() })">
                 toggle me
             </button>
             <button @click="lists.pop()">

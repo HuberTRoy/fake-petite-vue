@@ -50,11 +50,11 @@ export const _for: Directive = ({ el, value, ctx, get }) => {
     //    2.1 进行比对，比对是否是同一个节点，当前仅以Key为对比条件。key相同且顺序相同则不变。
     //    2.2 key相同但顺序不同，eg 翻转，此时应该移动。
     //    2.3 key不同在当前节点新插入新的节点。
-    for (let [index, item] of containerList.entries()) {
+    for (let item of containerList) {
       let copyCtx: context = {
         scope: ctx.scope,
         dirList: ctx.dirList,
-        childrenScope: {},
+        childrenScope: ctx.childrenScope || {},
       };
       if (copyCtx.childrenScope) {
         copyCtx.childrenScope[itemName] = item;
