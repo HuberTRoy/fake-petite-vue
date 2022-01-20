@@ -23,6 +23,8 @@
       </div> -->
     <div id="app">
         <div v-data="controller">
+            <input type="text" v-model="msg">
+            <div>{{ msg }}</div>
             <div id="test" v-if="!open" :class="['testClass', classes]">这是v-if测试</div>
             <!-- <div id="test" v-if="open" :class="['testClass', classes]">这是v-if测试</div>
             <div id="test" v-if="open" :class="{ testClass: showClass }">这是v-if和:class的测试</div>
@@ -32,26 +34,25 @@
                 </div>
             </div> -->
             <div style="display:flex;flex-direction: column;">
-                <div v-for="i in list" :key="i.text">
-                    {{ i.text }}
-                    <div v-for="j in lists" :key="j" style="color:aqua">
+                <div v-for="i in list" :key="i.key">
+                    <!-- {{ i.text }} -->
+                    <input type="text" v-model="i.text">
+                    {{msg}}
+                    <!-- <div v-for="j in lists" :key="j" style="color:aqua">
                         {{ j }}
-                        <span @click="lists.push(Math.random())">
-                            9999
-                        </span>
                         <div v-for="x in listss" :key="x" style="color: pink">
                             {{ i.text }}
                             <span @click="lists.push(Math.random())">
                                 4888
                             </span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <button @click="list.push({ text: Math.random() })">
                 toggle me
             </button>
-            <button @click="lists.pop()">
+            <button @click="msg = 'test'">
                 toggle me
             </button>
             <button @click="open = !open">
@@ -70,7 +71,7 @@
                 msg: 'hello template',
                 classes: 'xyz',
                 color: 'pink',
-                list: [{ text: 1 }, { text: 2 }, { text: 7 }, { text: 5}, { text: 3}], // 
+                list: [{ text: 1, key: 2 }, { text: 2, key: 3 }, { text: 7, key: 4 }, { text: 5, key: 5}, { text: 3, key: 6}], // 
                 lists: ['1'],
                 listss: ['tyutyu'],
             }

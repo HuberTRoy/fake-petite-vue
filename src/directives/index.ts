@@ -6,6 +6,7 @@ import { event } from "./event";
 import { text } from "./text";
 import { _if } from "./if";
 import { _for } from "./for";
+import { model } from "./model";
 
 export type Directive<T = Element> = (ctx: DirectiveContext<T>) => void;
 
@@ -29,4 +30,5 @@ export const buildInDirectives: args = {
   data: data,
   event: event,
   text: text,
+  model: model,
 };
